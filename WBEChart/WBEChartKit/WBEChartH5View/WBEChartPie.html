@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <meta name="viewport" content="width=300,user-scalable=no"/>
+            <title>Pie</title>
+            <script src="jquery.js"></script>
+            <script src="echarts-all.js"></script>
+            <script src="dark.js"></script>
+            <script src="blue.js"></script>
+            <script src="gray.js"></script>
+            <script src="green.js"></script>
+            <script src="helianthus.js"></script>
+            <script src="infographic.js"></script>
+            <script src="macarons.js"></script>
+            <script src="macarons2.js"></script>
+            <script src="mint.js"></script>
+            <script src="red.js"></script>
+            <script src="roma.js"></script>
+            <script src="sakura.js"></script>
+            <script src="shine.js"></script>
+            <style type="text/css">
+                #main{
+                    position: absolute;
+                    left: 50%;
+                    margin-left: -150px;
+                    width: 300px;
+                    height: 300px;
+                }
+            </style>
+    </head>
+    <body>
+        
+        <div id="main" ></div>
+        
+        <script type="text/javascript">
+            var  myChart;
+            function generalChart(data,type) {
+                
+                var  option;
+                
+                if(type==1)
+                {
+                    
+                    option = {
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: data.tooltipFormatter?data.tooltipFormatter:"{a} <br/>{b} : {c} ({d}%)"
+                        },
+                        series : [
+                                  {
+                                  name:data.seriesName?data.seriesName:'分布',
+                                  type:'pie',
+                                  radius : data.seriesRadius?data.seriesRadius:'40%',
+                                  center: data.seriesCenter?data.seriesCenter:['50%', '50%'],
+                                  data:data.seriesData,
+                                  itemStyle:{
+                                  normal:{
+                                  label:{
+                                  show: true,
+                                  position:data.lablePosition?data.lablePosition:'outter',
+                                  formatter: data.seriesFormatter?data.seriesFormatter:'{b}',
+                                  textStyle:{fontSize:data.seriesFontSize?data.seriesFontSize:12}
+                                  },
+                                  labelLine :{show:(data.lablePosition=="outter"||!data.lablePosition)?true:false,length:data.lableLineLength?data.lableLineLength:5}
+                                  }
+                                  }
+                                  
+                                  }
+                                  ],
+                        animation:(data.animation=='true'||!data.animation)?true:false
+                    };
+                    
+                }
+                else if (type==2)
+                {
+                    var legendData=[];
+                    
+                    $.each(data.seriesData,function (index,value) {
+                           legendData.push(value.name);
+                           
+                           });
+                           
+                           option = {
+                               tooltip : {
+                                   trigger: 'item',
+                                   formatter: data.tooltipFormatter?data.tooltipFormatter:"{a} <br/>{b} : {c} ({d}%)"
+                               },
+                               legend: {
+                                   orient : data.legendOrient?data.legendOrient:'horizontal',
+                                   x : data.legendX?data.legendX:'center',
+                                   y:data.legendY?data.legendY:'top',
+                                   data:legendData,
+                                   textStyle:{fontSize:data.legendFontSize?data.legendFontSize:12},
+                                   itemWidth:data.legenditemWidth?parseInt(data.legenditemWidth):20,
+                                   itemHeight:data.legenditemHeight?parseInt(data.legenditemHeight):14,
+                                   itemGap:data.legenditemGap?parseInt(data.legenditemGap):10
+                               },
+                               series : [
+                                         {
+                                         name:data.seriesName?data.seriesName:'分布',
+                                         type:'pie',
+                                         radius : data.seriesRadius?data.seriesRadius:'40%',
+                                         center: data.seriesCenter?data.seriesCenter:['50%', '50%'],
+                                         data:data.seriesData,
+                                         itemStyle:{
+                                         normal:{
+                                         label:{
+                                         show: true,
+                                         position:data.lablePosition?data.lablePosition:'outter',
+                                         formatter: data.seriesFormatter?data.seriesFormatter:'{b}',
+                                         textStyle:{fontSize:data.seriesFontSize?data.seriesFontSize:12}
+                                         },
+                                         labelLine :{show:(data.lablePosition=="outter"||!data.lablePosition)?true:false,length:data.lableLineLength?data.lableLineLength:5}
+                                         }
+                                         }
+                                         }
+                                         ],
+                                         animation:(data.animation=='true'||!data.animation)?true:false
+                           };
+                           
+                }
+                
+                myChart=echarts.init($("#main")[0]);
+                myChart.setOption(option);
+                myChart.setTheme(eval(data.chartTheme));
+                var ecConfig =echarts.config ;
+                
+                function eConsole(param) {
+                   window.webkit.messageHandlers.paramCall.postMessage({body: param.data});
+                }
+
+                myChart.on(ecConfig.EVENT.CLICK, eConsole);
+                
+            }
+            function setTheme(theme) {
+               myChart.setTheme(eval(theme));
+            }
+        
+            </script>
+        
+    </body>
+</html>

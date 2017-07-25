@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=300,user-scalable=no"/>
+    <title>Gauge</title>
+    <script src="jquery.js"></script>
+    <script src="echarts-all.js"></script>
+    <script src="dark.js"></script>
+    <script src="blue.js"></script>
+    <script src="gray.js"></script>
+    <script src="green.js"></script>
+    <script src="helianthus.js"></script>
+    <script src="infographic.js"></script>
+    <script src="macarons.js"></script>
+    <script src="macarons2.js"></script>
+    <script src="mint.js"></script>
+    <script src="red.js"></script>
+    <script src="roma.js"></script>
+    <script src="sakura.js"></script>
+    <script src="shine.js"></script>
+    <style type="text/css">
+        #main{
+            position: absolute;
+            left: 50%;
+            margin-left: -150px;
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="main" ></div>
+
+<script type="text/javascript">
+
+    var  myChart;
+    function generalChart(data,type) {
+
+        option = {
+            tooltip : {
+                formatter: data.tooltipFormatter?data.tooltipFormatter:"{a} <br/>{b} : {c}%"
+            },
+            series : [
+                {
+                    name:data.seriesName?data.seriesName:'表盘值',
+                    type:'gauge',
+                      min:data.seriesMin?parseInt(data.seriesMin):0,
+                      max:data.seriesMax?parseInt(data.seriesMax):100,
+                      splitNumber:data.seriessplitNumber?data.seriessplitNumber:10,
+                      data:data.seriesData?data.seriesData:[{value: 0, name: '比例'}],
+                    axisLine:{
+                        show: true,
+                        lineStyle: {
+                      color:data.seriesAxisLineColor?data.seriesAxisLineColor: [
+                                [0.2, '#228b22'],
+                                [0.8, '#48b'],
+                                [1, '#ff4500']
+                            ],
+                         width:data.seriesAxisLineWidth?parseInt(data.seriesAxisLineWidth):5
+                        }
+                    },
+                    splitLine:{
+                        show: true,
+                        length :data.seriesSplitLineLength?parseInt(data.seriesSplitLineLength):8,
+                        lineStyle: {
+                            color: '#eee',
+                            width: 2,
+                            type: 'solid'
+                        }
+                    },
+                    title: {
+                        show : true,
+                        offsetCenter: [0, '-40%'],
+                        textStyle: {
+                            color: '#333',
+                            fontSize : data.seriesTitleFontSize?parseInt(data.seriesTitleFontSize):12
+                        }
+                    },
+                    detail:{
+                        textStyle: {
+                            color: 'auto',
+                            fontSize : data.seriesDetailFontSize?parseInt(data.seriesDetailFontSize):12
+                        },
+                      formatter:data.seriesDetailFormatter?data.seriesDetailFormatter:'{value}%'
+                      },
+                    axisLabel:{
+                      show: true,
+                      formatter: null,
+                      textStyle: {
+                      color: 'auto',
+                      fontSize:data.seriesaxisLabelFontSize?parseInt(data.seriesaxisLabelFontSize):12
+                      }
+                    }
+                      
+                }
+            ]
+        };
+
+        myChart=echarts.init($("#main")[0]);
+        myChart.setOption(option);
+        myChart.setTheme(eval(data.chartTheme));
+        
+        var ecConfig =echarts.config ;
+        function eConsole(param) {
+            window.webkit.messageHandlers.paramCall.postMessage({body: param.data});
+        }
+        myChart.on(ecConfig.EVENT.CLICK, eConsole);
+
+    }
+
+    function updataGaugeValue(data) {
+      option.series[0].data[0].value = data;
+      myChart.setOption(option, true);
+    
+    }
+
+    function setTheme(theme) {
+      myChart.setTheme(eval(theme));
+    }
+
+</script>
+
+</body>
+</html>
