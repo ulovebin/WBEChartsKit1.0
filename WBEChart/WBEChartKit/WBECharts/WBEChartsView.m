@@ -50,7 +50,6 @@
     return self;
 }
 
-
 #pragma mark -数据处理
 -(void)dealModelWith:(id)modelData
 {
@@ -89,7 +88,6 @@
         [self setTheme:_theme];
     }
 }
-//web回调
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
 {
     NSLog(@"JS 调用了 %@ 方法，传回参数 %@",message.name,message.body);
@@ -99,8 +97,6 @@
     }
 }
 #pragma mark -功能
-
-//设置主题
 -(void)setTheme:(NSString *)theme
 {
     NSString *dataFunc=[NSString stringWithFormat:@"setTheme(%@)",theme];
@@ -114,8 +110,6 @@
         }
     }];
 }
-
-//截图
 - (UIImage *)getCaptureImage {
     UIGraphicsBeginImageContextWithOptions(self.frame.size, true, 0);
     for (UIView *subview in self.subviews) {
@@ -132,7 +126,6 @@
 #pragma mark 可扩展
 @implementation WBEChartsView (Gauge)
 
-//仪表盘更新
 -(void)updataGaugeValue:(float)value
 {
     NSString *dataFunc=[NSString stringWithFormat:@"updataGaugeValue(%f)",value];
