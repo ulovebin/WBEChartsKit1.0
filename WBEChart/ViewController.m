@@ -18,10 +18,9 @@
 
 @interface ViewController()
 {
-    //主页面
     ThemeTableViewController *_themeTableVC;
     NSString *_theme;
-    
+    //
 }
 
 @end
